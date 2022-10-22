@@ -22,13 +22,12 @@ private slots:
     void addPointToScene(std::pair<double, double> point);
     void removePointsFromScene();
 
-
 private:
     void initCustomPlot();
 
 private:
     Ui::MainWindow *ui;
-    PointsGenerator* m_pointsGenerator = nullptr;
+    PointsGenerator m_pointsGenerator;
     QThread  m_thread;
 };
 #endif // MAINWINDOW_H

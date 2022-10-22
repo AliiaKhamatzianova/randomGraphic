@@ -12,22 +12,21 @@ MainWindow::MainWindow(QWidget *parent)
 
     initCustomPlot();
 
-    m_pointsGenerator = new PointsGenerator();
-    m_pointsGenerator->moveToThread(&m_thread);
+    m_pointsGenerator.moveToThread(&m_thread);
     m_thread.start();
-    connect(ui->startBtn, &QToolButton::clicked, m_pointsGenerator, &PointsGenerator::startGenerate);
-    connect(ui->pauseBtn, &QToolButton::clicked, m_pointsGenerator, &PointsGenerator::pauseGenerate, Qt::ConnectionType::DirectConnection);
-    connect(ui->stopBtn, &QToolButton::clicked, m_pointsGenerator, &PointsGenerator::stopGenerate, Qt::ConnectionType::DirectConnection);
 
-    connect(m_pointsGenerator, &PointsGenerator::addPoint, this, &MainWindow::addPointToScene);
-    connect(m_pointsGenerator, &PointsGenerator::removePoints, this, &MainWindow::removePointsFromScene);
+    connect(ui->startBtn, &QToolButton::clicked, &m_pointsGenerator, &PointsGenerator::startGenerate);
+    connect(ui->pauseBtn, &QToolButton::clicked, &m_pointsGenerator, &PointsGenerator::pauseGenerate, Qt::ConnectionType::DirectConnection);
+    connect(ui->stopBtn, &QToolButton::clicked, &m_pointsGenerator, &PointsGenerator::stopGenerate, Qt::ConnectionType::DirectConnection);
+
+    connect(&m_pointsGenerator, &PointsGenerator::addPoint, this, &MainWindow::addPointToScene);
+    connect(&m_pointsGenerator, &PointsGenerator::removePoints, this, &MainWindow::removePointsFromScene);
 }
 
 MainWindow::~MainWindow()
 {
     m_thread.terminate();
     delete ui;
-
 }
 
 void MainWindow::initCustomPlot()
@@ -53,7 +52,7 @@ void MainWindow::addPointToScene(std::pair<double, double> point)
 
 void MainWindow::removePointsFromScene()
 {
-    qDebug("removePointsFromScene");
+    qDebug(__FUNCTION__);
     ui->customPlot->removeGraph(0);
     ui->customPlot->replot();
     initCustomPlot();

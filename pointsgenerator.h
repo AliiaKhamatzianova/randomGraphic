@@ -2,18 +2,17 @@
 #define POINTSGENERATOR_H
 
 #include <QObject>
-
 #include <atomic>
-
 #include <QMetaType>
-
-
 
 class PointsGenerator: public QObject
 {
     Q_OBJECT
 public:
     PointsGenerator();
+    ~PointsGenerator();
+
+
     void startGenerate();
     void pauseGenerate();
     void stopGenerate();
@@ -25,7 +24,6 @@ signals:
 private:
     std::vector<std::pair<double, double>> m_coords;
     std::atomic_bool m_startGenerate = false;
-
 
 };
 

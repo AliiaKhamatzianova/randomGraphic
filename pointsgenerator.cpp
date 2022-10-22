@@ -10,9 +10,14 @@ PointsGenerator::PointsGenerator()
     qRegisterMetaType<std::pair<double, double>>("std::pair<double, double>");
 }
 
+PointsGenerator::~PointsGenerator()
+{
+}
+
+
 void PointsGenerator::startGenerate()
 {
-    qDebug("startGenerate");
+    qDebug(__FUNCTION__);
     m_startGenerate = true;
 
     while(m_startGenerate){
@@ -26,13 +31,13 @@ void PointsGenerator::startGenerate()
 
 void PointsGenerator::pauseGenerate()
 {
-    qDebug("pauseGenerate");
+    qDebug(__FUNCTION__);
     m_startGenerate = false;
 }
 
 void PointsGenerator::stopGenerate()
 {
-    qDebug("stopGenerate");
+    qDebug(__FUNCTION__);
     m_startGenerate = false;
     m_coords.clear();
     emit removePoints();
