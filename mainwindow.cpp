@@ -2,6 +2,9 @@
 #include "ui_mainwindow.h"
 #include <QRandomGenerator>
 
+#include "Defines.h"
+
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -33,18 +36,17 @@ MainWindow::~MainWindow()
 
 void MainWindow::initScene()
 {
-    QPen pen(Qt::black);
-    m_scene->addLine(0,270,270,270,pen);//x
-    m_scene->addLine(0,0,0,270,pen);//y
+    QPen pen(AXES_COLOR);
+    m_scene->addLine(0,MAX_POINT,MAX_POINT,MAX_POINT,pen); //x
+    m_scene->addLine(0,0,0,MAX_POINT,pen); //y
 }
 
 void MainWindow::addPointToScene(std::pair<double, double> point)
 {
     qDebug("addpointToScene %f, %f", point.first, point.second);
-    double rad = 1;
-    QPen pen(Qt::blue);
-    m_scene->addEllipse(point.first-rad, point.second-rad, rad*2.0, rad*2.0,
-                        pen, QBrush(Qt::SolidPattern));
+    QPen pen(POINT_COLOR);
+    m_scene->addEllipse(point.first-RAD, point.second-RAD, RAD*2.0, RAD*2.0,
+                        pen, QBrush(POINT_BRUSH_STYLE));
 }
 
 void MainWindow::removePointsFromScene()

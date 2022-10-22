@@ -2,10 +2,12 @@
 #include <QRandomGenerator>
 #include <QThread>
 
+#include "Defines.h"
+
 PointsGenerator::PointsGenerator()
     :QObject()
 {
-qRegisterMetaType<std::pair<double, double>>("std::pair<double, double>");
+    qRegisterMetaType<std::pair<double, double>>("std::pair<double, double>");
 }
 
 void PointsGenerator::startGenerate()
@@ -14,11 +16,11 @@ void PointsGenerator::startGenerate()
     m_startGenerate = true;
 
     while(m_startGenerate){
-        auto x = QRandomGenerator::global()->bounded(270.f);
-        auto y = QRandomGenerator::global()->bounded(270.f);
+        auto x = QRandomGenerator::global()->bounded(MAX_POINT);
+        auto y = QRandomGenerator::global()->bounded(MAX_POINT);
         m_coords.push_back(std::make_pair(x,y));
         emit addPoint(m_coords.back());
-        QThread::currentThread()->msleep(1000);
+        QThread::currentThread()->msleep(THREAD_SLEEP_TIME);
     }
 }
 

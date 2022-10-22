@@ -38,6 +38,10 @@
         <property name="text">
          <string>start</string>
         </property>
+        <property name="icon">
+         <iconset resource="resources.qrc">
+          <normaloff>:/images/images/startBtn.bmp</normaloff>:/images/images/startBtn.bmp</iconset>
+        </property>
        </widget>
       </item>
       <item>
@@ -45,12 +49,20 @@
         <property name="text">
          <string>pause</string>
         </property>
+        <property name="icon">
+         <iconset resource="resources.qrc">
+          <normaloff>:/images/images/pauseBtn.bmp</normaloff>:/images/images/pauseBtn.bmp</iconset>
+        </property>
        </widget>
       </item>
       <item>
        <widget class="QToolButton" name="stopBtn">
         <property name="text">
          <string>stop</string>
+        </property>
+        <property name="icon">
+         <iconset resource="resources.qrc">
+          <normaloff>:/images/images/stopBtn.bmp</normaloff>:/images/images/stopBtn.bmp</iconset>
         </property>
        </widget>
       </item>
@@ -83,6 +95,8 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>
