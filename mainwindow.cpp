@@ -4,15 +4,13 @@
 
 #include "Defines.h"
 
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
-    m_scene = new QGraphicsScene(ui->graphicsView);
-    initScene();
+    initCustomPlot();
 
     m_pointsGenerator = new PointsGenerator();
     m_pointsGenerator->moveToThread(&m_thread);
@@ -23,8 +21,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(m_pointsGenerator, &PointsGenerator::addPoint, this, &MainWindow::addPointToScene);
     connect(m_pointsGenerator, &PointsGenerator::removePoints, this, &MainWindow::removePointsFromScene);
-
-    ui->graphicsView->setScene(m_scene);
 }
 
 MainWindow::~MainWindow()
@@ -34,24 +30,31 @@ MainWindow::~MainWindow()
 
 }
 
-void MainWindow::initScene()
+void MainWindow::initCustomPlot()
 {
-    QPen pen(AXES_COLOR);
-    m_scene->addLine(0,MAX_POINT,MAX_POINT,MAX_POINT,pen); //x
-    m_scene->addLine(0,0,0,MAX_POINT,pen); //y
+    ui->customPlot->clearGraphs();
+    ui->customPlot->addGraph();
+    ui->customPlot->xAxis->setLabel("x");
+    ui->customPlot->yAxis->setLabel("y");
+    ui->customPlot->xAxis->setRange(START_RANGE, END_RANGE);
+    ui->customPlot->yAxis->setRange(START_RANGE, END_RANGE);
+    ui->customPlot->graph(0)->setPen(QPen(POINT_COLOR));//задаем цвет точки
+    ui->customPlot->graph(0)->setLineStyle(QCPGraph::lsNone);//убираем линии
+    //формируем вид точек
+    ui->customPlot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, POINT_SIZE));
 }
 
 void MainWindow::addPointToScene(std::pair<double, double> point)
 {
     qDebug("addpointToScene %f, %f", point.first, point.second);
-    QPen pen(POINT_COLOR);
-    m_scene->addEllipse(point.first-RAD, point.second-RAD, RAD*2.0, RAD*2.0,
-                        pen, QBrush(POINT_BRUSH_STYLE));
+    ui->customPlot->graph(0)->addData(point.first, point.second);
+    ui->customPlot->replot();
 }
 
 void MainWindow::removePointsFromScene()
 {
     qDebug("removePointsFromScene");
-    m_scene->clear();
-    initScene();
+    ui->customPlot->removeGraph(0);
+    ui->customPlot->replot();
+    initCustomPlot();
 }

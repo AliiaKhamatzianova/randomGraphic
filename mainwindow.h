@@ -1,12 +1,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QGraphicsScene>
 #include <QMainWindow>
 #include <QThread>
 
 #include "pointsgenerator.h"
-
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -26,14 +24,11 @@ private slots:
 
 
 private:
-    void initScene();
-
-
+    void initCustomPlot();
 
 private:
     Ui::MainWindow *ui;
     PointsGenerator* m_pointsGenerator = nullptr;
     QThread  m_thread;
-    QGraphicsScene* m_scene;
 };
 #endif // MAINWINDOW_H
